@@ -16,10 +16,12 @@ while(1):
 
     piToNixie.sendNum(int(timestr[0]), 0)
     piToNixie.sendNum(int(timestr[1]), 1)
+    if int(secstr[1]) % 2 == 0:
+        piToNixie.sendCommaR(1)
     piToNixie.sendNum(int(timestr[2]), 2)
     piToNixie.sendNum(int(timestr[3]), 3)
     piToNixie.sendPoint(int(secstr[1]) % 2)
     
     piToNixie.sendEnd()
-    
+	   
     time.sleep(0.05 - (time.time() - bgn))
