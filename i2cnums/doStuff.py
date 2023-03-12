@@ -19,7 +19,9 @@ currentBrightness = 15
 availableModes = ["time", "count", "intro"]
 currentMode = "time"
 modeChanged = False
-initTimeForCount = int(time.time())
+# modeChangedAt = None
+modeChangedAt = int(time.time())
+vfdDimmed = False
 
 def calculateTime():
     commasR = []
@@ -100,11 +102,21 @@ def sendDisplayedNumber(displayedNumber, commasL, commasR, points):
     piToNixie.sendEnd()
 
 def sendModeToVFD(mode):
+    global vfdDimmed
+
     modeBytes = bytes(" "+mode, "ascii")
     for idx, modeByte in enumerate(modeBytes):
         piToVFD.sendChar(modeByte, idx)
 
     piToVFD.sendBrightness(0xFF, 10) # TODO: use brightness set for this display; indexes reversed?
+    piToVFD.sendMultiFinish()
+
+    vfdDimmed = False
+
+def dimVFD():
+    global vfdDimmed
+    vfdDimmed = True
+    piToVFD.setFadeOut(0, 10)
     piToVFD.sendMultiFinish()
 
 def cycleModeUp():
@@ -118,8 +130,9 @@ def cycleModeDn():
 def cycleMode(up = True):
     global currentMode
     global modeChanged
-    global initTimeForCount
-    initTimeForCount = int(time.time())
+    # global modeChangedAt
+    global modeChangedAt
+    modeChangedAt = int(time.time())
     currentIdx = availableModes.index(currentMode)
     if (up):
         currentIdx += 1
@@ -133,6 +146,7 @@ def cycleMode(up = True):
         
     currentMode = availableModes[currentIdx]
     modeChanged = True
+    # modeChangedAt = int(time.time())
 
 try:
     #force internal pullups on the brightness encoder pins
@@ -162,7 +176,7 @@ try:
             [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateTime()
             introInProgress = False
         elif currentMode == "count":
-            [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCount(initTimeForCount)
+            [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCount(modeChangedAt)
             introInProgress = False
         elif currentMode == "intro":
             #we wanna run the intro only once
@@ -175,6 +189,9 @@ try:
         if (modeChanged):
             modeChanged = False
             sendModeToVFD(currentMode)
+
+        if (not(vfdDimmed) and (modeChangedAt < int(time.time()) - 100)):
+            dimVFD()
 
         [brightnessChanged, previousBrightnessEncoderReading, currentBrightness] = calculateBrightness(previousBrightnessEncoderReading, currentBrightness)
                 
