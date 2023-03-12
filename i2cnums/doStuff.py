@@ -190,7 +190,7 @@ try:
             modeChanged = False
             sendModeToVFD(currentMode)
 
-        if (not(vfdDimmed) and (modeChangedAt < int(time.time()) - 100)):
+        if (not(vfdDimmed) and (modeChangedAt < int(time.time()) - 10)):
             dimVFD()
 
         [brightnessChanged, previousBrightnessEncoderReading, currentBrightness] = calculateBrightness(previousBrightnessEncoderReading, currentBrightness)
