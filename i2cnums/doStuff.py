@@ -100,7 +100,7 @@ def sendDisplayedNumber(displayedNumber, commasL, commasR, points):
     piToNixie.sendEnd()
 
 def sendModeToVFD(mode):
-    modeBytes = bytes(mode, "ascii")
+    modeBytes = bytes(" "+mode, "ascii")
     for idx, modeByte in enumerate(modeBytes):
         piToVFD.sendChar(modeByte, idx)
         piToVFD.sendBrightness(255, idx) # TODO
