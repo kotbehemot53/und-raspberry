@@ -38,8 +38,8 @@ def sendOn():
 def sendIntroOn():
     sendByte(0x12)
 
-def sendByte(sendByte, cnt = 0):
-    i2CComms.sendByte(addr, sendByte, cnt)
+def sendByte(byteToSend):
+    i2CComms.sendByte(addr, byteToSend, 0)
 
 
 

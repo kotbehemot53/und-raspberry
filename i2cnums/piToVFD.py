@@ -69,5 +69,5 @@ def setFadeTime(time, place):
 def sendClear():
     sendByte(0xD0)
 
-def sendByte(sendByte, cnt = 0):
-    i2CComms.sendByte(addr, sendByte, cnt)
+def sendByte(byteToSend):
+    i2CComms.sendByte(addr, byteToSend, 0)
