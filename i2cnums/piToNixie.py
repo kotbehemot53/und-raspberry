@@ -1,7 +1,6 @@
-from smbus import SMBus
+from i2CComms import i2CComms
 
 addr = 0x4 # bus address
-bus = SMBus(0) # indicates /dev/ic2-0
 
 def sendStart():
     sendByte(0x40)
@@ -39,13 +38,8 @@ def sendOn():
 def sendIntroOn():
     sendByte(0x12)
 
-def sendByte(send_byte, cnt = 0):
-    try:
-        #print('sendin '+bin(send_byte))
-        bus.write_byte(addr, send_byte)
-    except:
-        print('snd fail no ' + str(cnt + 1))
-        if (cnt < 10):
-            sendByte(send_byte, cnt + 1)
+def sendByte(sendByte, cnt = 0):
+    i2CComms.sendByte(addr, sendByte, cnt)
+
 
 
