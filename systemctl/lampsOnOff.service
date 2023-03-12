@@ -1,0 +1,11 @@
+[Unit]
+Description=Start/stop lamps on system start/shutdown
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/home/pi/src/piclock/i2cnums/start.sh
+ExecStop=/home/pi/src/piclock/i2cnums/stop.sh
+
+[Install]
+WantedBy=multi-user.target
