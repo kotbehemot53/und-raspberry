@@ -100,7 +100,7 @@ def sendDisplayedNumber(displayedNumber, commasL, commasR, points):
     piToNixie.sendEnd()
 
 def sendModeToVFD(mode):
-    modeBytes = bytes(mode)
+    modeBytes = bytes(mode, "ascii")
     for idx, modeByte in enumerate(modeBytes):
         piToVFD.sendChar(modeByte, idx)
         piToVFD.sendBrightness(255, idx) # TODO
@@ -153,6 +153,7 @@ try:
     introInProgress = False
 
     piToVFD.sendIntroOff()
+    sendModeToVFD(currentMode)
     
     while(1):
         bgn = time.time()
