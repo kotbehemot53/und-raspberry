@@ -8,4 +8,4 @@ def sendByte(addr, sendByte, cnt = 0):
     except:
         print('snd fail no ' + str(cnt + 1))
         if (cnt < 10):
-            sendByte(sendByte, cnt + 1)
+            sendByte(addr, sendByte, cnt + 1)
