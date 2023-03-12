@@ -1,4 +1,4 @@
-from i2CComms import i2CComms
+import i2CComms
 
 addr = 0x4 # bus address
 

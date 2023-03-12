@@ -1,4 +1,4 @@
-from i2CComms import i2CComms
+import i2CComms
 
 LED_MODE_HEARTBEAT = 0
 LED_MODE_WARNING = 1
