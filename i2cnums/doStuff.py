@@ -1,6 +1,7 @@
 import sys
 import time
 import piToNixie
+import piToVFD
 import datetime
 
 import RPi.GPIO as GPIO
@@ -17,6 +18,7 @@ currentBrightness = 15
 
 availableModes = ["time", "count", "intro"]
 currentMode = "time"
+modeChanged = False
 initTimeForCount = int(time.time())
 
 def calculateTime():
@@ -97,6 +99,14 @@ def sendDisplayedNumber(displayedNumber, commasL, commasR, points):
     
     piToNixie.sendEnd()
 
+def sendModeToVFD(mode):
+    modeBytes = bytes(mode)
+    for idx, modeByte in enumerate(modeBytes):
+        piToVFD.sendChar(modeByte, idx)
+        piToVFD.sendBrightness(255, idx) # TODO
+
+    piToVFD.sendMultiFinish()
+
 def cycleModeUp():
     print("cycle up")
     cycleMode()
@@ -107,6 +117,7 @@ def cycleModeDn():
 
 def cycleMode(up = True):
     global currentMode
+    global modeChanged
     global initTimeForCount
     initTimeForCount = int(time.time())
     currentIdx = availableModes.index(currentMode)
@@ -121,6 +132,7 @@ def cycleMode(up = True):
         currentIdx = len(availableModes) - 1
         
     currentMode = availableModes[currentIdx]
+    modeChanged = True
 
 try:
     #force internal pullups on the brightness encoder pins
@@ -139,6 +151,8 @@ try:
     commasL = []
     points = []
     introInProgress = False
+
+    piToVFD.sendIntroOff()
     
     while(1):
         bgn = time.time()
@@ -156,6 +170,10 @@ try:
                 introInProgress = True
         else:
             print("Unsupported mode " + currentMode)
+
+        if (modeChanged):
+            modeChanged = False
+            sendModeToVFD(currentMode)
 
         [brightnessChanged, previousBrightnessEncoderReading, currentBrightness] = calculateBrightness(previousBrightnessEncoderReading, currentBrightness)
                 
