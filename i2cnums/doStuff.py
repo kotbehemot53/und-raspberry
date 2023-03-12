@@ -103,8 +103,8 @@ def sendModeToVFD(mode):
     modeBytes = bytes(" "+mode, "ascii")
     for idx, modeByte in enumerate(modeBytes):
         piToVFD.sendChar(modeByte, idx)
-        piToVFD.sendBrightness(255, idx) # TODO
 
+    piToVFD.sendBrightness(0xFF, 10) # TODO
     piToVFD.sendMultiFinish()
 
 def cycleModeUp():
