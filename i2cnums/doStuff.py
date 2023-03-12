@@ -104,7 +104,7 @@ def sendModeToVFD(mode):
     for idx, modeByte in enumerate(modeBytes):
         piToVFD.sendChar(modeByte, idx)
 
-    piToVFD.sendBrightness(0xFF, 10) # TODO
+    piToVFD.sendBrightness(0xFF, 10) # TODO: use brightness set for this display; indexes reversed?
     piToVFD.sendMultiFinish()
 
 def cycleModeUp():
