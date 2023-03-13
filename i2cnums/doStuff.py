@@ -117,7 +117,7 @@ def sendModeToVFD(mode):
     vfdDimmed = False
 
 def dimVFDDigit(which):
-    time.sleep(random.random() * 3)
+    time.sleep(random.random() * 10)
     piToVFD.setFadeOut(0, which)
     piToVFD.sendMultiFinish()
 
@@ -179,9 +179,9 @@ try:
     points = []
     introInProgress = False
 
-    piToVFD.sendIntroOff()
-    time.sleep(0.5) # TODO due to a bug in vfd firmware we must wait a bit for the intro to ACTUALLY go off
-    sendModeToVFD(currentMode)
+    piToVFD.sendIntroOff() # TODO due to a bug in vfd firmware we must wait a bit for the intro to ACTUALLY go off
+
+    # sendModeToVFD(currentMode)
 
     while(1):
         bgn = time.time()
