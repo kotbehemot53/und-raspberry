@@ -112,6 +112,7 @@ def sendModeToVFD(mode):
         piToVFD.sendChar(modeByte, idx)
 
     piToVFD.sendBrightness(0xFF, 10) # TODO: use brightness set for this display; indexes reversed?
+    # piToVFD.set # TODO: command needed to break fade-in/out here (set constant mode at max brightness)!
     piToVFD.sendMultiFinish()
 
     vfdDimmed = False
@@ -125,6 +126,7 @@ def dimVFD():
     global vfdDimmed
     vfdDimmed = True
     # TODO: multiple fade outs lead to all sorts of artifacts random lit segents - why?
+    #       also switching during fade-out leads to immediate fade-out of the new value - FIX IT!
     # for i in range(10):
     #     t = threading.Thread(target=dimVFDDigit, args=[i])
     #     t.start()
