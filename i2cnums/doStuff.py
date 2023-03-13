@@ -124,11 +124,12 @@ def dimVFDDigit(which):
 def dimVFD():
     global vfdDimmed
     vfdDimmed = True
-    for i in range(10):
-        t = threading.Thread(target=dimVFDDigit, args=[i])
-        t.start()
-    # piToVFD.setFadeOut(0, 10)
-    # piToVFD.sendMultiFinish()
+    # TODO: multiple fade outs lead to all sorts of artifacts random lit segents - why?
+    # for i in range(10):
+    #     t = threading.Thread(target=dimVFDDigit, args=[i])
+    #     t.start()
+    piToVFD.setFadeOut(0, 10)
+    piToVFD.sendMultiFinish()
 
 def cycleModeUp():
     print("cycle up")
