@@ -2,6 +2,9 @@ import sys
 import time
 import piToNixie
 import piToVFD
+import time
+import threading
+import random
 import datetime
 
 import RPi.GPIO as GPIO
@@ -113,11 +116,19 @@ def sendModeToVFD(mode):
 
     vfdDimmed = False
 
+def dimVFDDigit(which):
+    time.sleep(random.random() * 3)
+    piToVFD.setFadeOut(0, which)
+    piToVFD.sendMultiFinish()
+
 def dimVFD():
     global vfdDimmed
     vfdDimmed = True
-    piToVFD.setFadeOut(0, 10)
-    piToVFD.sendMultiFinish()
+    for i in range(10):
+        t = threading.Thread(target=dimVFDDigit, args=[i])
+        t.start()
+    # piToVFD.setFadeOut(0, 10)
+    # piToVFD.sendMultiFinish()
 
 def cycleModeUp():
     print("cycle up")
@@ -149,6 +160,8 @@ def cycleMode(up = True):
     # modeChangedAt = int(time.time())
 
 try:
+    random.seed(int(time.time()))
+
     #force internal pullups on the brightness encoder pins
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -167,8 +180,9 @@ try:
     introInProgress = False
 
     piToVFD.sendIntroOff()
+    time.sleep(0.5) # TODO due to a bug in vfd firmware we must wait a bit for the intro to ACTUALLY go off
     sendModeToVFD(currentMode)
-    
+
     while(1):
         bgn = time.time()
 
