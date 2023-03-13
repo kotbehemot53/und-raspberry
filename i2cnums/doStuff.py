@@ -117,7 +117,7 @@ def sendModeToVFD(mode):
     vfdDimmed = False
 
 def dimVFDDigit(which):
-    time.sleep(random.random() * 10)
+    time.sleep(random.random() * 6)
     piToVFD.setFadeOut(0, which)
     piToVFD.sendMultiFinish()
 
