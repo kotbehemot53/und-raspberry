@@ -180,8 +180,8 @@ try:
     introInProgress = False
 
     piToVFD.sendIntroOff() # TODO due to a bug in vfd firmware we must wait a bit for the intro to ACTUALLY go off
-
-    # sendModeToVFD(currentMode)
+    time.sleep(1)
+    sendModeToVFD(currentMode)
 
     while(1):
         bgn = time.time()
