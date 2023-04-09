@@ -187,7 +187,7 @@ def poisoningPrevention():
             poisonReturn = currentMode
             currentMode = "intro"
     else:  # end procedure
-        if (int(time.time()) % preventionInterval) >= preventionDuration:
+        if (int(time.time()) % preventionInterval) > preventionDuration:
             currentMode = poisonReturn
             poisonReturn = False
 
