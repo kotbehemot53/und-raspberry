@@ -85,3 +85,7 @@ dtoverlay=gpio-shutdown
 #dtoverlay=i2c-gpio,i2c_gpio_sda=30,i2c_gpio_scl=31,bus=3
 #dtoverlay=i2c0,pins_0_1
 dtparam=i2c_vc=on
+
+#"power led"
+enable_uart=1
+#dtparam=act_led_gpio=14
