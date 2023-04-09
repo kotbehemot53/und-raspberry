@@ -218,6 +218,8 @@ try:
     while (1):
         bgn = time.time()
 
+        poisoningPrevention()
+
         if currentMode == "time":
             [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateTime()
             introInProgress = False
@@ -262,8 +264,6 @@ try:
         # print("Time left: " + str(0.05 - (time.time() - bgn)))
         # do the loop every 50 milliseconds
         time.sleep(0.05 - (time.time() - bgn))
-
-        poisoningPrevention()
 
 finally:
     GPIO.cleanup()
