@@ -40,6 +40,12 @@ def calculateTime():
 
     return [newTimestr, [], commasR, points]
 
+def calculateCpuTemp():
+    commasR = [3]
+    newTempStr = '66600'
+
+    return [newTempStr, [], commasR, points]
+
 
 def calculateCount(initTime):
     # pad number with 'a's which will result as lamps being off
@@ -225,6 +231,9 @@ try:
             introInProgress = False
         elif currentMode == "count":
             [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCount(modeChangedAt)
+            introInProgress = False
+        elif currentMode == "cputemp":
+            [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCpuTemp(modeChangedAt)
             introInProgress = False
         elif currentMode == "intro":
             # we wanna run the intro only once
