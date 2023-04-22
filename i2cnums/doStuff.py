@@ -263,7 +263,8 @@ try:
 
         # print("Time left: " + str(0.05 - (time.time() - bgn)))
         # do the loop every 50 milliseconds
-        time.sleep(0.05 - (time.time() - bgn))
+        sleepTime = 0.05 - (time.time() - bgn)
+        time.sleep(sleepTime if sleepTime > 0 else 0)
 
 finally:
     GPIO.cleanup()
