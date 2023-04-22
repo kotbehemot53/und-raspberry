@@ -19,7 +19,7 @@ btnUp = Button(17)
 
 currentBrightness = 15
 
-availableModes = ["time", "count", "intro"]
+availableModes = ["time", "count", "intro", "cputemp"]
 currentMode = "time"
 modeChanged = False
 # modeChangedAt = None
