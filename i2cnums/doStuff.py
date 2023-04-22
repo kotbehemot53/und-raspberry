@@ -44,11 +44,16 @@ def calculateTime():
 
 def calculateCpuTemp():
     commasR = [3]
-    # newTempStr = ' 66600'
-    json_url = urlopen('http://192.168.1.118:8085/data.json') #todo temp stuff
-    data = json.loads(json_url.read())
-    tempStrRaw = data["Children"][0]["Children"][1]["Children"][3]["Children"][0]["Value"]
-    newTempStr = "  " + tempStrRaw[:2] + tempStrRaw[3:4] + "0"
+    secstr = time.strftime('%S', time.localtime())
+    points = [int(secstr[1]) % 2]
+
+    try:
+        json_url = urlopen('http://192.168.1.118:8085/data.json', timeout=1) #todo temp stuff
+        data = json.loads(json_url.read())
+        tempStrRaw = data["Children"][0]["Children"][1]["Children"][3]["Children"][0]["Value"]
+        newTempStr = "  " + tempStrRaw[:2] + tempStrRaw[3:4] + "0"
+    except:
+        newTempStr = "000000"
 
     return [newTempStr, [], commasR, points]
 
