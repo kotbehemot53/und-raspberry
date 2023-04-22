@@ -6,7 +6,7 @@ import time
 import threading
 import random
 import datetime
-import urllib
+from urllib.request import urlopen
 import json
 
 import RPi.GPIO as GPIO
