@@ -42,7 +42,7 @@ def calculateTime():
 
 def calculateCpuTemp():
     commasR = [3]
-    newTempStr = '66600'
+    newTempStr = ' 66600'
 
     return [newTempStr, [], commasR, points]
 
