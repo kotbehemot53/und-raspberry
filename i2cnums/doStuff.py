@@ -233,7 +233,7 @@ try:
             [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCount(modeChangedAt)
             introInProgress = False
         elif currentMode == "cputemp":
-            [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCpuTemp(modeChangedAt)
+            [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCpuTemp()
             introInProgress = False
         elif currentMode == "intro":
             # we wanna run the intro only once
