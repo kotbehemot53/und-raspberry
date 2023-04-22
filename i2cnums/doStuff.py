@@ -6,6 +6,8 @@ import time
 import threading
 import random
 import datetime
+import urllib
+import json
 
 import RPi.GPIO as GPIO
 
@@ -19,7 +21,7 @@ btnUp = Button(17)
 
 currentBrightness = 15
 
-availableModes = ["time", "count", "intro", "cputemp"]
+availableModes = ["time", "count", "intro", "cpu temp"]
 currentMode = "time"
 modeChanged = False
 # modeChangedAt = None
@@ -42,7 +44,10 @@ def calculateTime():
 
 def calculateCpuTemp():
     commasR = [3]
-    newTempStr = ' 66600'
+    # newTempStr = ' 66600'
+    json_url = urlopen('http://192.168.1.118:8085/data.json') #todo temp stuff
+    data = json.loads(json_url.read())
+    newTempStr = "    " + data["Children"][0]["Children"][1]["Children"][3]["Children"][0]["Value"][:2]
 
     return [newTempStr, [], commasR, points]
 
@@ -232,7 +237,7 @@ try:
         elif currentMode == "count":
             [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCount(modeChangedAt)
             introInProgress = False
-        elif currentMode == "cputemp":
+        elif currentMode == "cpu temp":
             [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCpuTemp()
             introInProgress = False
         elif currentMode == "intro":
