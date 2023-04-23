@@ -57,7 +57,7 @@ def calculateCpuTemp():
 
     return [newTempStr, [], commasR, points]
 
-def calculateGpuTemp():
+def calculateGpuTemp(lowDisplay=False):
     commasR = [3]
     secstr = time.strftime('%S', time.localtime())
     points = [int(secstr[1]) % 2]
@@ -66,7 +66,10 @@ def calculateGpuTemp():
         json_url = urlopen('http://192.168.1.118:8085/data.json', timeout=1) #todo temp stuff
         data = json.loads(json_url.read())
         tempStrRaw = data["Children"][0]["Children"][3]["Children"][2]["Children"][0]["Value"]
-        newTempStr = "  " + tempStrRaw[:2] + tempStrRaw[3:4] + "0"
+        if (lowDisplay):
+            "GPU " + tempStrRaw[:2] + " C"
+        else:
+            newTempStr = "  " + tempStrRaw[:2] + tempStrRaw[3:4] + "0"
     except:
         newTempStr = "000000"
 
@@ -268,7 +271,7 @@ try:
         elif currentMode == "cpu gpu":
             [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCpuTemp()
             if vfdDimmed:
-                sendTextToVFD(calculateGpuTemp()[0], False)
+                sendTextToVFD(calculateGpuTemp(True)[0], False)
             introInProgress = False
         elif currentMode == "intro":
             # we wanna run the intro only once
