@@ -67,7 +67,7 @@ def calculateGpuTemp(lowDisplay=False):
         data = json.loads(json_url.read())
         tempStrRaw = data["Children"][0]["Children"][3]["Children"][2]["Children"][0]["Value"]
         if (lowDisplay):
-            newTempStr = "GPU " + tempStrRaw[:2] + " C"
+            newTempStr = "gpu " + tempStrRaw[:2] + " c"
         else:
             newTempStr = "  " + tempStrRaw[:2] + tempStrRaw[3:4] + "0"
     except:
@@ -310,7 +310,7 @@ try:
 
         # print("Time left: " + str(0.05 - (time.time() - bgn)))
         # do the loop every 50 milliseconds
-        sleepTime = 0.05 - (time.time() - bgn)
+        sleepTime = 0.1 - (time.time() - bgn)
         time.sleep(sleepTime if sleepTime > 0 else 0)
 
 finally:
