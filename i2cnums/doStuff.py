@@ -21,7 +21,7 @@ btnUp = Button(17)
 
 currentBrightness = 15
 
-availableModes = ["time", "count", "intro", "cpu temp", "gpu temp"]
+availableModes = ["time", "count", "intro", "cpu temp", "gpu temp", "cpu gpu"]
 currentMode = "time"
 modeChanged = False
 # modeChangedAt = None
@@ -143,7 +143,7 @@ def sendDisplayedNumber(displayedNumber, commasL, commasR, points):
     piToNixie.sendEnd()
 
 
-def sendModeToVFD(mode):
+def sendTextToVFD(mode, dim=True):
     global vfdDimmed
 
     modeBytes = bytes(" " + mode, "ascii")
@@ -154,7 +154,8 @@ def sendModeToVFD(mode):
     # piToVFD.set # TODO: command needed to break fade-in/out here (set constant mode at max brightness)!
     piToVFD.sendMultiFinish()
 
-    vfdDimmed = False
+    if dim:
+        vfdDimmed = False
 
 
 def dimVFDDigit(which):
@@ -245,7 +246,7 @@ try:
 
     piToVFD.sendIntroOff()  # TODO due to a bug in vfd firmware we must wait a bit for the intro to ACTUALLY go off
     time.sleep(1)
-    sendModeToVFD(currentMode)
+    sendTextToVFD(currentMode)
 
     while (1):
         bgn = time.time()
@@ -264,6 +265,10 @@ try:
         elif currentMode == "gpu temp":
             [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateGpuTemp()
             introInProgress = False
+        elif currentMode == "cpu gpu":
+            [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCpuTemp()
+            sendTextToVFD(calculateGpuTemp(), False)
+            introInProgress = False
         elif currentMode == "intro":
             # we wanna run the intro only once
             if not (introInProgress):
@@ -274,7 +279,7 @@ try:
 
         if (modeChanged):
             modeChanged = False
-            sendModeToVFD(currentMode)
+            sendTextToVFD(currentMode)
 
         if (not (vfdDimmed) and (modeChangedAt < int(time.time()) - 10)):
             dimVFD()
