@@ -21,7 +21,7 @@ btnUp = Button(17)
 
 currentBrightness = 15
 
-availableModes = ["time", "count", "intro", "cpu temp"]
+availableModes = ["time", "count", "intro", "cpu temp", "gpu temp"]
 currentMode = "time"
 modeChanged = False
 # modeChangedAt = None
@@ -51,6 +51,21 @@ def calculateCpuTemp():
         json_url = urlopen('http://192.168.1.118:8085/data.json', timeout=1) #todo temp stuff
         data = json.loads(json_url.read())
         tempStrRaw = data["Children"][0]["Children"][1]["Children"][3]["Children"][0]["Value"]
+        newTempStr = "  " + tempStrRaw[:2] + tempStrRaw[3:4] + "0"
+    except:
+        newTempStr = "000000"
+
+    return [newTempStr, [], commasR, points]
+
+def calculateGpuTemp():
+    commasR = [3]
+    secstr = time.strftime('%S', time.localtime())
+    points = [int(secstr[1]) % 2]
+
+    try:
+        json_url = urlopen('http://192.168.1.118:8085/data.json', timeout=1) #todo temp stuff
+        data = json.loads(json_url.read())
+        tempStrRaw = data["Children"][0]["Children"][3]["Children"][2]["Children"][0]["Value"]
         newTempStr = "  " + tempStrRaw[:2] + tempStrRaw[3:4] + "0"
     except:
         newTempStr = "000000"
@@ -245,6 +260,9 @@ try:
             introInProgress = False
         elif currentMode == "cpu temp":
             [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCpuTemp()
+            introInProgress = False
+        elif currentMode == "gpu temp":
+            [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateGpuTemp()
             introInProgress = False
         elif currentMode == "intro":
             # we wanna run the intro only once
