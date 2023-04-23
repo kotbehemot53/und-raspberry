@@ -267,7 +267,8 @@ try:
             introInProgress = False
         elif currentMode == "cpu gpu":
             [newDisplayedNumber, newCommasL, newCommasR, newPoints] = calculateCpuTemp()
-            sendTextToVFD(calculateGpuTemp(), False)
+            if vfdDimmed:
+                sendTextToVFD(calculateGpuTemp(), False)
             introInProgress = False
         elif currentMode == "intro":
             # we wanna run the intro only once
