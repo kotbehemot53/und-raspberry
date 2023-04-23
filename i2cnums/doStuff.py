@@ -67,7 +67,7 @@ def calculateGpuTemp(lowDisplay=False):
         data = json.loads(json_url.read())
         tempStrRaw = data["Children"][0]["Children"][3]["Children"][2]["Children"][0]["Value"]
         if (lowDisplay):
-            "GPU " + tempStrRaw[:2] + " C"
+            newTempStr = "GPU " + tempStrRaw[:2] + " C"
         else:
             newTempStr = "  " + tempStrRaw[:2] + tempStrRaw[3:4] + "0"
     except:
