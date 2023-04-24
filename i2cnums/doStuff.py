@@ -28,6 +28,8 @@ modeChanged = False
 modeChangedAt = int(time.time())
 vfdDimmed = False
 poisonReturn = False
+prevCpuTempStr = "000000"
+prevGpuTempStr = "000000"
 
 
 def calculateTime():
@@ -43,6 +45,7 @@ def calculateTime():
     return [newTimestr, [], commasR, points]
 
 def calculateCpuTemp():
+    global prevCpuTempStr
     commasR = [3]
     secstr = time.strftime('%S', time.localtime())
     points = [int(secstr[1]) % 2]
@@ -52,12 +55,14 @@ def calculateCpuTemp():
         data = json.loads(json_url.read())
         tempStrRaw = data["Children"][0]["Children"][1]["Children"][3]["Children"][0]["Value"]
         newTempStr = "  " + tempStrRaw[:2] + tempStrRaw[3:4] + "0"
+        prevCpuTempStr = newTempStr
     except:
-        newTempStr = "000000"
+        newTempStr = prevCpuTempStr
 
     return [newTempStr, [], commasR, points]
 
 def calculateGpuTemp(lowDisplay=False):
+    global prevGpuTempStr
     commasR = [3]
     secstr = time.strftime('%S', time.localtime())
     points = [int(secstr[1]) % 2]
@@ -70,8 +75,9 @@ def calculateGpuTemp(lowDisplay=False):
             newTempStr = "gpu " + tempStrRaw[:2] + " c"
         else:
             newTempStr = "  " + tempStrRaw[:2] + tempStrRaw[3:4] + "0"
+        prevGpuTempStr = newTempStr
     except:
-        newTempStr = "000000"
+        newTempStr = prevGpuTempStr
 
     return [newTempStr, [], commasR, points]
 
