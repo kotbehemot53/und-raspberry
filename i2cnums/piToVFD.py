@@ -33,7 +33,7 @@ def sendChar(char, place):
     sendByte(char)
 
 #name's fucked, right?
-def sendByte(byte, place):
+def sendCustomByte(byte, place):
     # TODO: throw exception on illegal place
     # TODO: throw exception on illegal byte
     sendByte(0x90 | place)
